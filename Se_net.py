@@ -256,7 +256,7 @@ def train(Batch_size,graph):
                         graph["inputs_Mat"]: mat_32,
                         graph["ys_label"]: label_32,
                         graph['is_training']: is_training,
-                        graph['learning_rate']: learning_rate,
+
                     })
                 if i % 100 == 0:
                     is_training = False
@@ -302,7 +302,7 @@ def Build_Network():
     cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=label, logits=logits))
 
     l2_loss = tf.add_n([tf.nn.l2_loss(var) for var in tf.trainable_variables()])
-    optimizer = tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=momentum, use_nesterov=True)
+    optimizer = tf.train.MomentumOptimizer(learning_rate=0.01, momentum=momentum, use_nesterov=True)
     train = optimizer.minimize(cost + l2_loss * weight_decay)
 
     correct_prediction = tf.equal(tf.argmax(logits, 1), tf.argmax(label, 1))
@@ -316,7 +316,7 @@ def Build_Network():
         Train=train,
         LOSS=l2_loss,
         acc=accuracy,
-        learning_rate=learning_rate,
+
         #Pre_Label=Pre_Label,
     )
 
