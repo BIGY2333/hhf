@@ -166,32 +166,32 @@ def LoadData():
         writer.close()
 
 
-def Read_TFRData():
-    tfrecords_filename = "D:/文档/工程/HEVC-神经网络/Data/Data16/train_1.tfrecords"
-    filename_queue = tf.train.string_input_producer([tfrecords_filename], shuffle=True)
-    reader = tf.TFRecordReader()
-    _, serialized_example = reader.read(filename_queue)
-    features = tf.parse_single_example(serialized_example,
-                                       features={
-                                           "Mat": tf.FixedLenFeature([], tf.string),
-                                           "label": tf.FixedLenFeature([], tf.int64),
-                                       })
-    Mat = tf.decode_raw(features["Mat"], tf.int64)
-    print(type(Mat))
-    Mat_64 = tf.reshape(Mat, [64, 64, 1])
-    Mat_64 = tf.cast(Mat_64, tf.float32) * (1.0 / 255)
-    Mat_64 = tf.image.per_image_standardization(Mat_64)
-    Label_32 = tf.decode_raw(features["label_32"], tf.int64)
-    Label_32 = tf.reshape(Label_32, [4])
-    print("Label_32 shape", Label_32.shape)
-    Label_16 = tf.decode_raw(features["label_16"], tf.int64)
-    Label_16 = tf.reshape(Label_16, [16])
-    print("Label_16 shape is ", Label_16.shape)
-    Label_64 = tf.cast(features["label_64"], tf.int64)
-    Mat_batch, Label64_batch, Label32_batch, Label16_Batch = tf.train.shuffle_batch \
-        ([Mat_64, Label_64, Label_32, Label_16], batch_size=3, capacity=10, min_after_dequeue=5, num_threads=1)
-    print("-----------read data ending------------")
-    return Mat_batch, Label64_batch, Label32_batch, Label16_Batch
+# def Read_TFRData():
+#     tfrecords_filename = "D:/文档/工程/HEVC-神经网络/Data/Data16/train_1.tfrecords"
+#     filename_queue = tf.train.string_input_producer([tfrecords_filename], shuffle=True)
+#     reader = tf.TFRecordReader()
+#     _, serialized_example = reader.read(filename_queue)
+#     features = tf.parse_single_example(serialized_example,
+#                                        features={
+#                                            "Mat": tf.FixedLenFeature([], tf.string),
+#                                            "label": tf.FixedLenFeature([], tf.int64),
+#                                        })
+#     Mat = tf.decode_raw(features["Mat"], tf.int64)
+#     print(type(Mat))
+#     Mat_64 = tf.reshape(Mat, [64, 64, 1])
+#     Mat_64 = tf.cast(Mat_64, tf.float32) * (1.0 / 255)
+#     Mat_64 = tf.image.per_image_standardization(Mat_64)
+#     Label_32 = tf.decode_raw(features["label_32"], tf.int64)
+#     Label_32 = tf.reshape(Label_32, [4])
+#     print("Label_32 shape", Label_32.shape)
+#     Label_16 = tf.decode_raw(features["label_16"], tf.int64)
+#     Label_16 = tf.reshape(Label_16, [16])
+#     print("Label_16 shape is ", Label_16.shape)
+#     Label_64 = tf.cast(features["label_64"], tf.int64)
+#     Mat_batch, Label64_batch, Label32_batch, Label16_Batch = tf.train.shuffle_batch \
+#         ([Mat_64, Label_64, Label_32, Label_16], batch_size=3, capacity=10, min_after_dequeue=5, num_threads=1)
+#     print("-----------read data ending------------")
+#     return Mat_batch, Label64_batch, Label32_batch, Label16_Batch
 
 
 if __name__ == "__main__":
