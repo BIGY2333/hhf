@@ -33,7 +33,7 @@ def LoadData():
                                 feature={
                                     "Mat": tf.train.Feature(bytes_list=tf.train.BytesList(value=[Mat_str])),
                                     "label": tf.train.Feature(
-                                        int64_list=tf.train.Int64List(value=[[1,0])),
+                                        int64_list=tf.train.Int64List(value=[1,0])),
                                 }))
                             writer.write(example.SerializeToString())
                         elif m == 0:
@@ -46,7 +46,7 @@ def LoadData():
                                     "Mat": tf.train.Feature(
                                         bytes_list=tf.train.BytesList(value=[Mat_nstr])),
                                     "label": tf.train.Feature(
-                                        int64_list=tf.train.Int64List(value=[[0,1])),
+                                        int64_list=tf.train.Int64List(value=[0,1])),
                                 }))
                             writer.write(example.SerializeToString())
                 '''    
